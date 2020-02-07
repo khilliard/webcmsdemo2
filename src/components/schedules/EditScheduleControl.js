@@ -158,7 +158,7 @@ export default function EditScheduleControl() {
 		<div>
 			<Dialog open={true}>
 				<DialogTitle className={classes.title}>
-					Create Presentation Display Schedule
+					Edit Presentation Display Schedule
 				</DialogTitle>
 				<DialogContent>
 					<TextField

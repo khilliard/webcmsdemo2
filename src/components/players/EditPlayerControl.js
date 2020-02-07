@@ -2,7 +2,6 @@ import React, { useState, useContext } from "react"
 import { makeStyles } from "@material-ui/core/styles"
 import amber from "@material-ui/core/colors/amber"
 import red from "@material-ui/core/colors/red"
-import cyan from "@material-ui/core/colors/cyan"
 
 import firebaseApp from "../../firebase"
 import { StoreContext } from "../../App"
@@ -61,8 +60,22 @@ export default function EditPlayerControl() {
 	const [location, setLocation] = useState(playerData.location)
 	const [waiting, setWaiting] = useState(false)
 	const [confirm, setConfirm] = useState(false)
-
+	const [assignedPresentation, setAssignedPresentation] = useState(
+		"Not Assigned"
+	)
+	const [assignedSchedule, setAssignedSchedule] = useState("Not Assigned")
 	const authCode = playerData.authcode
+
+	if (playerData.assignedTo) {
+		firebaseApp.retrieveDocument(playerData.assignedTo).then(presentation => {
+			setAssignedPresentation(presentation.data().name)
+		})
+	}
+	if (playerData.schedule) {
+		firebaseApp.retrieveDocument(playerData.schedule).then(schedule => {
+			setAssignedSchedule(schedule.data().name)
+		})
+	}
 
 	const handlePopupClose = () => {
 		dispatch({ type: EDIT_PLAYER_STATE, payload: false })
@@ -140,11 +153,27 @@ export default function EditPlayerControl() {
 							value={location}
 							onChange={e => setLocation(e.target.value)}
 						/>
+						<TextField
+							className={classes.input}
+							label="Assigned presentation"
+							value={assignedPresentation}
+							InputProps={{
+								readOnly: true
+							}}
+						/>
+						<TextField
+							className={classes.input}
+							label="Assigned schedule"
+							value={assignedSchedule}
+							InputProps={{
+								readOnly: true
+							}}
+						/>
 						<div className={classes.actions}>
 							<Button
 								className={classes.actionButton}
 								type="submit"
-								style={{ color: `${cyan[500]}` }}
+								style={{ color: `${amber[500]}` }}
 								variant="outlined"
 								disabled={waiting}
 							>
