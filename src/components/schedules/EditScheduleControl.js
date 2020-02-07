@@ -267,7 +267,7 @@ export default function EditScheduleControl() {
 								dispatch({ type: EDIT_SCHEDULE_STATE, payload: false })
 							}
 						>
-							Cancel
+							Close
 						</Button>
 					</div>
 				</DialogContent>
